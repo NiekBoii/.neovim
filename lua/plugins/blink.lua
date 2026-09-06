@@ -17,9 +17,51 @@ return {
       use_nvim_cmp_as_default = false,
       nerd_font_variant = "mono",
     },
-    completion = { trigger = {
-      show_on_trigger_character = true,
-    } },
+    completion = {
+      trigger = {
+        show_on_trigger_character = true,
+      },
+      menu = {
+        border = "rounded",
+        draw = {
+          padding = { 1, 1 },
+          treesitter = { "lsp" },
+          columns = {
+            { "kind_icon" },
+            { "label", "label_description", gap = 1 },
+            { "kind" },
+          },
+          components = {
+            kind_icon = {
+              text = function(ctx)
+                local icon, _, _ = require("mini.icons").get("lsp", ctx.kind)
+                return (icon or ctx.kind_icon) .. ctx.icon_gap
+              end,
+              highlight = function(ctx)
+                local _, hl, _ = require("mini.icons").get("lsp", ctx.kind)
+                return hl or ctx.kind_hl
+              end,
+            },
+            kind = {
+              highlight = function(ctx)
+                local _, hl, _ = require("mini.icons").get("lsp", ctx.kind)
+                return hl or ctx.kind_hl
+              end,
+            },
+          },
+        },
+      },
+      documentation = {
+        auto_show = true,
+        auto_show_delay_ms = 150,
+        window = { border = "rounded" },
+      },
+      ghost_text = { enabled = true },
+    },
+    signature = {
+      enabled = true,
+      window = { border = "rounded" },
+    },
     fuzzy = {
       sorts = {
         function(a, b)
